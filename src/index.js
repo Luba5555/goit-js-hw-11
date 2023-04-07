@@ -71,9 +71,9 @@ async function onSearch(e) {
         );
         clear();
         console.log(clear);
-        
+
       }
-      
+
     })
     .catch(error => console.log(error.message));
 }
@@ -126,7 +126,7 @@ function renderImage(name) {
 function clear() {
   galleryEl.innerHTML = '';
   searchBtnEl.disabled = false;
-  
+
 
 }
 
