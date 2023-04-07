@@ -9,7 +9,7 @@ body {
     color: #212121;
     background: linear-gradient(0deg, rgba(251, 242, 50, 1) 0%, rgba(35, 228, 226, 1) 100%);
     background-attachment: fixed;
-    
+    Permissions-Policy: fullscreen 'none';
 
 }
 

@@ -5,6 +5,8 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { fetchImages } from './fetchImages';
 
+
+
 const searchForm = document.querySelector('#search-form');
 const inputEl = document.querySelector('input[name="searchQuery"]');
 const galleryEl = document.querySelector('.gallery');
