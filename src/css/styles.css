@@ -69,13 +69,17 @@ button:hover {
 
 #search-form {
     display: flex;
-    align-items: center;
+    justify-content: center;
+    position: fixed;
     font: inherit;
     justify-content: center;
     width: 40vw;
     border-radius: 10px;
-    left: auto;
-    width: 50%;
+    left: 0;
+    
+    width: 100%;
+    padding-bottom: 25px;
+    padding-top: 25px;
 }
 
 .search-form input,
@@ -155,26 +159,4 @@ input:not(:placeholder-shown)+button {
 
 .info p {
     padding: 5px;
-}
-
-@media screen and (max-width: 767.98px) {
-    .info {
-        display: block;
-        text-align: start;
-    }
-
-    .info p {
-        padding-top: 1px;
-        padding-bottom: 1px;
-        font-size: 1.2vw;
-    }
-}
-
-.load-more {
-    width: 30vw;
-    display: block;
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 2.2vw;
 }

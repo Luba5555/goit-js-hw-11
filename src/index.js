@@ -32,9 +32,11 @@ let gallery = new SimpleLightbox('.gallery a', {
 async function onSearch(e) {
   e.preventDefault();
   name = inputEl.value.trim();
+  galleryEl.innerHTML = '';
   searchBtnEl.disabled = false;
+  page = 1;
   endOfListIsReached = false;
-  
+
   if (name === '') {
     Notiflix.Notify.failure(`Enter a name to search!`);
     return;
@@ -43,39 +45,42 @@ async function onSearch(e) {
     .then(name => {
       console.log(name.hits);
       console.log(name.totalHits);
+
       totalPages = Math.round(name.totalHits / perPage);
       console.log(totalPages);
       console.log(page);
-      currentHits = name.hits.length;
-      console.log(currentHits);
-      
+
+
       if (name.hits.length > 0) {
         Notiflix.Notify.success(`Hooray! We found ${name.totalHits} images.`);
         renderImage(name);
         gallery.refresh();
         //loadMoreBtnEl.classList.remove('visually-hidden');
-        console.log(gallery.refresh);
+
         if (page < totalPages) {
           searchBtnEl.disabled = true;
-          
+
         } else {
           Notiflix.Notify.info(
             "We're sorry, but you've reached the end of search results."
           );
-        } 
+        }
       } else {
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
-        // clear();
+        clear();
+        console.log(clear);
+        
       }
+      
     })
     .catch(error => console.log(error.message));
 }
 
 
 function renderImage(name) {
-  // clear();
+  //clear();
   const markup = name.hits.map(hit => {
     return `<div class="photo-card">
                 <a class="gallery-item" href="${hit.largeImageURL}">
@@ -116,49 +121,52 @@ function renderImage(name) {
     .join('');
   galleryEl.insertAdjacentHTML('beforeend', markup);
 }
-searchForm.addEventListener('submit', onSearch);
+
 
 function clear() {
   galleryEl.innerHTML = '';
+  searchBtnEl.disabled = false;
+  
+
 }
 
 
 window.addEventListener(
   'scroll',
   () => {
-      if (
-          window.innerHeight + window.pageYOffset >= document.body.offsetHeight &&
-          page < totalPages
-      ) {
-          name = inputEl.value;
-          page += 1;
+    if (
+      window.innerHeight + window.pageYOffset >= document.body.offsetHeight &&
+      page < totalPages
+    ) {
+      name = inputEl.value;
+      page += 1;
 
-          fetchImages(name, page, perPage).then(name => {
-              renderImage(name);
-              smothScroll();
-              gallery.refresh();
-              console.log(page);
-          });
-      } else if (
-          window.innerHeight + window.pageYOffset >= document.body.offsetHeight &&
-          page >= totalPages &&
-          !endOfListIsReached
-      ) {
-          endOfListIsReached = true;
-          setTimeout(() => {
-              Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
-          }, 2000);
-      }
+      fetchImages(name, page, perPage).then(name => {
+        renderImage(name);
+        smothScroll();
+        gallery.refresh();
+        console.log(page);
+      });
+    } else if (
+      window.innerHeight + window.pageYOffset >= document.body.offsetHeight &&
+      page >= totalPages &&
+      !endOfListIsReached
+    ) {
+      endOfListIsReached = true;
+      setTimeout(() => {
+        Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+      }, 2000);
+    }
   },
   true
 );
 
 function smothScroll() {
   const { height: cardHeight } = document
-      .querySelector('.gallery')
-      .firstElementChild.getBoundingClientRect();
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
   window.scrollBy({
-      top: cardHeight * 2,
-      behavior: 'smooth',
+    top: cardHeight * 2,
+    behavior: 'smooth',
   });
 }
