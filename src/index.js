@@ -31,9 +31,10 @@ let gallery = new SimpleLightbox('.gallery a', {
 
 async function onSearch(e) {
   e.preventDefault();
+  
   name = inputEl.value.trim();
   galleryEl.innerHTML = '';
-  searchBtnEl.disabled = false;
+  
   page = 1;
   endOfListIsReached = false;
 
@@ -58,7 +59,7 @@ async function onSearch(e) {
         //loadMoreBtnEl.classList.remove('visually-hidden');
 
         if (page < totalPages) {
-          searchBtnEl.disabled = true;
+          // searchBtnEl.disabled = true;
 
         } else {
           Notiflix.Notify.info(
@@ -71,7 +72,7 @@ async function onSearch(e) {
         );
         clear();
         console.log(clear);
-
+        
       }
 
     })
@@ -125,15 +126,15 @@ function renderImage(name) {
 
 function clear() {
   galleryEl.innerHTML = '';
-  searchBtnEl.disabled = false;
+  // searchBtnEl.disabled = false;
 
 
 }
 
 
-window.addEventListener(
-  'scroll',
-  () => {
+window.addEventListener('scroll', scrollFunction);
+
+function scrollFunction() {
     if (
       window.innerHeight + window.pageYOffset >= document.body.offsetHeight &&
       page < totalPages
@@ -156,10 +157,9 @@ window.addEventListener(
       setTimeout(() => {
         Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
       }, 2000);
-    }
-  },
-  true
-);
+    } true
+  }
+
 
 function smothScroll() {
   const { height: cardHeight } = document
